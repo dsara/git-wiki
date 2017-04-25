@@ -2,9 +2,9 @@ doctype html
 html
   head
     title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-    script(type='text/javascript', src='/javascripts/polyfills.dev.js')
-    script(type='text/javascript', src='/javascripts/vendor.dev.js')
-    script(type='text/javascript', src='/javascripts/app.dev.js')
+    link(rel='stylesheet', href='/stylesheets/vendor.dev.css?v=#{devDeployVersion}')
   body
     block content
+    script(type='text/javascript', src='/javascripts/polyfills.dev.js?v=#{devDeployVersion}')
+    script(type='text/javascript', src='/javascripts/vendor.dev.js?v=#{devDeployVersion}')
+    script(type='text/javascript', src='/javascripts/app.dev.js?v=#{devDeployVersion}')
