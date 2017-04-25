@@ -17,4 +17,6 @@ import "rxjs";
 })
 class GitWikiModule {}
 
-platformBrowserDynamic().bootstrapModule(GitWikiModule);
+document.addEventListener("DOMContentLoaded", ev => {
+    platformBrowserDynamic().bootstrapModule(GitWikiModule);
+});
