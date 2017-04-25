@@ -14,7 +14,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-console.log("Environment:" + process.env.NODE_ENV);
+console.log("Environment:" + app.get('env'));
 
 if (process.env.NODE_ENV === 'production') {
   app.set('deployVersion', "0.0.1");
