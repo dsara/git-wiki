@@ -9,3 +9,6 @@ import 'rxjs';
 
 import 'jquery';
 
+require("../node_modules/bootstrap/dist/css/bootstrap.css");
+require('bootstrap');
+
