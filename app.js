@@ -14,12 +14,14 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+console.log("Environment:" + process.env.NODE_ENV);
+
 if (process.env.NODE_ENV === 'production') {
-  app.locals.deployVersion = "0.0.1";
+  app.set('deployVersion', "0.0.1");
 }
 
 if (process.env.NODE_ENV === 'development') {
-  app.locals.deployVersion = (new Date).getTime();
+  app.set('deployVersion', (new Date).getTime());
 }
 
 // uncomment after placing your favicon in /public
