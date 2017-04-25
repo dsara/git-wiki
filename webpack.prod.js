@@ -26,7 +26,7 @@ module.exports = webpackMerge(commonConfig, {
     new ExtractTextPlugin('public/stylesheets/[name].[hash].css'),
     new webpack.DefinePlugin({
       'process.env': {
-        'ENV': JSON.stringify(ENV)
+        NODE_ENV: JSON.stringify(ENV)
       }
     }),
     new webpack.LoaderOptionsPlugin({

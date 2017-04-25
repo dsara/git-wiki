@@ -16,11 +16,11 @@ app.set('view engine', 'pug');
 
 console.log("Environment:" + app.get('env'));
 
-if (process.env.NODE_ENV === 'production') {
+if (app.get('env') === 'production') {
   app.set('deployVersion', "0.0.1");
 }
 
-if (process.env.NODE_ENV === 'development') {
+if (app.get('env') === 'development') {
   app.set('deployVersion', (new Date).getTime());
 }
 
