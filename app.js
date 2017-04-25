@@ -17,11 +17,13 @@ app.set('view engine', 'pug');
 console.log("Environment:" + app.get('env'));
 
 if (app.get('env') === 'production') {
-  app.set('deployVersion', "0.0.1");
+  app.locals.deployVersion = "0.0.1";
+  // app.set('deployVersion', "0.0.1");
 }
 
 if (app.get('env') === 'development') {
-  app.set('deployVersion', (new Date).getTime());
+  // app.set('deployVersion', (new Date).getTime());
+  app.locals.deployVersion = (new Date).getTime();
 }
 
 // uncomment after placing your favicon in /public
