@@ -1,6 +1,5 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var HtmlWebpackPugPlugin = require('html-webpack-pug-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var helpers = require("./config/helpers");
 
@@ -36,7 +35,16 @@ module.exports = {
             },
             {
                 test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
-                use: 'file-loader?name=public/assets/[name].[hash].[ext]'
+                use: 'file-loader?name=assets/[name].[hash].[ext]'
+            },
+            {
+                test: /\.css$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: [
+                        { loader: 'css-loader', query: { modules: true, sourceMaps: false } },
+                    ]
+                })
             },
             {
                 test: /\.sass$/,
@@ -70,13 +78,20 @@ module.exports = {
 
         new webpack.optimize.CommonsChunkPlugin({
             names: ['app', 'vendor', 'polyfills']
+        }),
+
+        new webpack.ProvidePlugin({
+            '$': 'jquery',
+            'jQuery': 'jquery',
+            'window.jQuery': 'jquery'
         })
 
         // new HtmlWebpackPlugin({
-        //     template: 'src/layout.pug',
-        //     filename: 'layout.pug',
-        //     filetype: 'pug'
+        //     //template: '!!pug-loader!src/layout.pug',
+        //     template: require('html-webpack-template-pug'),
+        //     filename: './views/layout.pug',
+        //     mobile: true,
+        //     title: 'GitWiki'
         // }),
-        // new HtmlWebpackPugPlugin()
     ]
 };
