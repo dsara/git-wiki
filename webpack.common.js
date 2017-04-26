@@ -5,9 +5,9 @@ var helpers = require("./config/helpers");
 
 module.exports = {
     entry: {
-        'polyfills': './src/polyfills.ts',
-        'vendor': './src/vendor.ts',
-        'app': './src/main.ts'
+        'polyfills': './src/app/polyfills.ts',
+        'vendor': './src/app/vendor.ts',
+        'app': './src/app/main.ts'
     },
 
     resolve: {
@@ -21,7 +21,7 @@ module.exports = {
                 use: [
                     {
                         loader: 'awesome-typescript-loader',
-                        options: { configFileName: helpers.root('src', 'tsconfig.json')}
+                        options: { configFileName: helpers.root('src', 'app', 'tsconfig.json')}
                     }, 'angular2-template-loader'
                 ]
             },
@@ -72,7 +72,7 @@ module.exports = {
         new webpack.ContextReplacementPlugin(
         // The (\\|\/) piece accounts for path separators in *nix and Windows
         /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
-        helpers.root('./src'), // location of your src
+        helpers.root('./src/app'), // location of your src
         {} // a map of your routes
         ),
 
