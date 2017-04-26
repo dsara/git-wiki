@@ -4,25 +4,31 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var api = require('./routes/api');
 
 var app = express();
+
+// database connection
+// -------------------------------------------
+mongoose.connect('mongodb://localhost:27017/gitwiki');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-console.log("Environment:" + app.get('env'));
+console.log("Environment: " + app.get('env'));
 
 if (app.get('env') === 'production') {
   app.locals.deployVersion = "0.0.1";
-  // app.set('deployVersion', "0.0.1");
 }
 
 if (app.get('env') === 'development') {
-  // app.set('deployVersion', (new Date).getTime());
   app.locals.deployVersion = (new Date).getTime();
 }
 
@@ -35,6 +41,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
+app.use('/api', api);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
