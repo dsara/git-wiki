@@ -12,7 +12,9 @@ import 'rxjs';
 
 import 'jquery';
 
+import 'markdown-to-html-pipe';
+
 require("../../node_modules/bootstrap/dist/css/bootstrap.css");
 require('bootstrap');
 
-require("../../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css");
+// require("../../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css");
