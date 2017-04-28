@@ -42,17 +42,17 @@ module.exports = {
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: [
-                        { loader: 'css-loader', query: { modules: true, sourceMaps: false } },
+                        { loader: 'css-loader', query: { sourceMaps: false } },
                     ]
                 })
             },
             {
-                test: /\.sass$/,
+                test: /\.scss$/,
                 exclude: [helpers.root('src', 'app')],
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: [
-                        { loader: 'css-loader', query: { modules: true, sourceMaps: true } },
+                        { loader: 'css-loader', query: { sourceMaps: true } },
                         { loader: 'sass-loader', query: { sourceMaps: true }}
                     ]
                 })
