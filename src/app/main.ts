@@ -9,6 +9,7 @@ import {LocationStrategy, HashLocationStrategy} from "@angular/common";
 import {HttpModule} from "@angular/http";
 import {RouterModule} from "@angular/router";
 import {MarkdownToHtmlModule} from 'markdown-to-html-pipe';
+import {MDToHtmlPipe} from './shared/pipes/to-markdown.pipe';
 
 import {AppComponent} from "./app.component";
 
@@ -27,7 +28,7 @@ require("../styles/global.scss");
               FormsModule,
               HttpModule,
               MarkdownToHtmlModule],
-    declarations: [AppComponent],
+    declarations: [AppComponent, MDToHtmlPipe],
     bootstrap: [AppComponent]
 })
 class GitWikiModule {}

@@ -723,3 +723,13 @@ input.mat-input-element:-webkit-autofill + .mat-input-placeholder .mat-placehold
 
 .mat-tooltip {
   background: rgba(97, 97, 97, 0.9); }
+
+html {
+  display: flex;
+  flex-direction: column;
+  height: 100%; }
+  html body {
+    flex: 1; }
+
+.mat-sidenav-container {
+  height: 100%; }

@@ -1,17 +1,13 @@
 md-toolbar(color="accent")
   span Express Application
 md-sidenav-container
-  md-sidenav(mode="side" "[opened]"="true")
-    h3 Left Nav Is here
-    button(md-raised-button="") left nav button
-  div(fxFlex='')
-    div(fxLayout='row')
-      div(fxFlex='50' fxHide.lt-md='100')
-        h3 Left nav
-        md-input-container
-          textarea.markdown-source(mdInput='' minRows='200' maxRows='500' placeholder='Markdown Source' mdAutosizeMaxRows='400' '[(ngModel)]'='markdownSource')
-        button(md-raised-button='') main content 20 left flex
-      div(fxFlex='50' fxFlex.lt-md='100')
-        h3 MainContent
-        div('[innerHtml]'='markdownSource|MarkdownToHtml')
-        button(md-raised-button='') main content 80 right flex
+  md-sidenav.side-nav(mode="side" "[opened]"="true")
+    div.col-xs-12
+      h3 Left Nav Is here
+      button(md-raised-button="" color="primary") left nav button
+  div
+    div.col-sm-6
+      md-input-container.markdown-container
+        textarea.markdown-source(mdInput='' mdTextareaAutosize='' minRows='20' maxRows='500' placeholder='Markdown Source' mdAutosizeMaxRows='400' '[(ngModel)]'='markdownSource')
+    div.col-sm-6
+      div('[innerHtml]'='markdownSource|mdToHtml')

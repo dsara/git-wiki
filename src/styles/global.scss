@@ -4,3 +4,18 @@
 @include mat-core;
 
 @include angular-material-theme($candy-app-theme);
+
+
+html {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  body {
+    flex: 1;
+  }
+}
+
+.mat-sidenav-container {
+  height: 100%;
+}

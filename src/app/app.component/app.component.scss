@@ -1,6 +1,10 @@
 @import '../../styles/candy-carousel-theme';
 
-.markdown-source {
-  font-family: '"Roboto Mono", Consolas, sans-serif';
+.markdown-container {
   width: 100%;
+
+  .markdown-source {
+    font-family: 'Roboto Mono', Consolas, sans-serif;
+    width: 100%;
+  }
 }
