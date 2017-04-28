@@ -1,0 +1,6 @@
+@import '~@angular/material/theming';
+@import 'candy-carousel-theme';
+
+@include mat-core;
+
+@include angular-material-theme($candy-app-theme);
