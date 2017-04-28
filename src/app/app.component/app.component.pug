@@ -1,8 +1,17 @@
-div(fxFlex='')
-  div(fxLayout='row')
-    div(fxFlex='20' fxHide.lt-md='')
-      h3 Left nav
-      button(md-raised-button='') left nav button
-    div(fxFlex='80' fxFlex.lt-md='100')
-      h3 MainContent
-      button(md-raised-button='') content button
+md-toolbar(color="accent")
+  span Express Application
+md-sidenav-container
+  md-sidenav(mode="side" "[opened]"="true")
+    h3 Left Nav Is here
+    button(md-raised-button="") left nav button
+  div(fxFlex='')
+    div(fxLayout='row')
+      div(fxFlex='50' fxHide.lt-md='100')
+        h3 Left nav
+        md-input-container
+          textarea.markdown-source(mdInput='' minRows='200' maxRows='500' placeholder='Markdown Source' mdAutosizeMaxRows='400' '[(ngModel)]'='markdownSource')
+        button(md-raised-button='') main content 20 left flex
+      div(fxFlex='50' fxFlex.lt-md='100')
+        h3 MainContent
+        div('[innerHtml]'='markdownSource|MarkdownToHtml')
+        button(md-raised-button='') main content 80 right flex
