@@ -1,4 +1,5 @@
 import * as express from "express";
+import {WikiPage} from '../controllers';
 
 var router = express.Router();
 
@@ -7,7 +8,16 @@ var router = express.Router();
 // api for pages
 router.get('/pages', function(req, res, next) {
   res.set('Content-Type', 'application/json');
-  res.json({ test: "yo" });
+  WikiPage.getWikiPage('New Title').then((wikiPage) => {
+    res.send(wikiPage);
+  });
+});
+
+router.post('/pages', (req, res, next) => {
+  res.set('Content-Type', 'application/json');
+  WikiPage.newWikiPage(req.body).then((wikiPage) => {
+    res.send(wikiPage);
+  });
 });
 
 // router.post('/pages/create', function(req, res, next) {
