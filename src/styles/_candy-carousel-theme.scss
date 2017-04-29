@@ -6,3 +6,39 @@ $candy-app-accent: mat-palette($mat-amber);
 $candy-app-warn: mat-palette($mat-red);
 
 $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
+
+
+@mixin primary-font {
+  font-family: 'Roboto', sans-serif;
+}
+
+@mixin mono-font {
+  font-family: 'Roboto Mono', monospace;
+}
+
+
+$font-size-xsmall: '11px';
+$font-size-small: '12px';
+$font-size-normal: '13px';
+$font-size-large: '14px';
+$font-size-xlarge: '15px';
+
+@mixin font-size-xsmall {
+  font-size: $font-size-xsmall;
+}
+
+@mixin font-size-small {
+  font-size: $font-size-small;
+}
+
+@mixin font-size-normal {
+  font-size: $font-size-normal;
+}
+
+@mixin font-size-large {
+  font-size: $font-size-large;
+}
+
+@mixin font-size-xlarge {
+  font-size: $font-size-xlarge;
+}
