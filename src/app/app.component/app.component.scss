@@ -4,7 +4,8 @@
   width: 100%;
 
   .markdown-source {
-    font-family: 'Roboto Mono', Consolas, sans-serif;
+    @include mono-font;
+    @include font-size-normal;
     width: 100%;
   }
 }
