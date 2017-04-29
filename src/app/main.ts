@@ -10,6 +10,8 @@ import {HttpModule} from "@angular/http";
 import {RouterModule} from "@angular/router";
 import {MarkdownToHtmlModule} from 'markdown-to-html-pipe';
 import {MDToHtmlPipe} from './shared/pipes/to-markdown.pipe';
+import {WikiPageService} from './shared/services';
+import {HttpHeadersService} from "./shared/services";
 
 import {AppComponent} from "./app.component";
 
@@ -29,6 +31,7 @@ require("../styles/global.scss");
               HttpModule,
               MarkdownToHtmlModule],
     declarations: [AppComponent, MDToHtmlPipe],
+    providers: [WikiPageService, HttpHeadersService],
     bootstrap: [AppComponent]
 })
 class GitWikiModule {}
