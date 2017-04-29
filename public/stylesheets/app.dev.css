@@ -729,7 +729,12 @@ html {
   flex-direction: column;
   height: 100%; }
   html body {
+    font-family: 'Roboto', sans-serif;
+    font-size: "13px";
     flex: 1; }
+  html pre code {
+    font-size: "13px";
+    font-family: 'Roboto Mono', monospace; }
 
 .mat-sidenav-container {
   height: 100%; }
