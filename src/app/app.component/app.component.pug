@@ -1,4 +1,5 @@
 md-toolbar(color="accent")
+  i.material-icons.md-36 menu
   span Express Application
 md-sidenav-container
   md-sidenav.side-nav(mode="side" "[opened]"="true")
@@ -9,5 +10,6 @@ md-sidenav-container
     div.col-sm-6
       md-input-container.markdown-container
         textarea.markdown-source(mdInput='' mdTextareaAutosize='' minRows='20' maxRows='500' placeholder='Markdown Source' mdAutosizeMaxRows='400' '[(ngModel)]'='markdownSource')
+      button(md-raised-button="" color="primary" '(click)'='saveWikiPage()') save markdown
     div.col-sm-6
       div('[innerHtml]'='markdownSource|mdToHtml')
