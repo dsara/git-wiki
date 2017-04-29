@@ -12,7 +12,16 @@ html {
   height: 100%;
 
   body {
+    @include primary-font;
+    @include font-size-normal;
     flex: 1;
+  }
+
+  pre {
+    code {
+      @include font-size-normal;
+      @include mono-font;
+    }
   }
 }
 
