@@ -8,12 +8,15 @@ import {ReactiveFormsModule, FormsModule} from "@angular/forms";
 import {LocationStrategy, HashLocationStrategy} from "@angular/common";
 import {HttpModule} from "@angular/http";
 import {RouterModule} from "@angular/router";
-import {MarkdownToHtmlModule} from 'markdown-to-html-pipe';
-import {MDToHtmlPipe} from './shared/pipes/to-markdown.pipe';
+
 import {WikiPageService} from './shared/services';
 import {HttpHeadersService} from "./shared/services";
 
-import {AppComponent} from "./app.component";
+import {AppRoutingModule} from './routes'
+
+import {HomeComponent} from "./home/home.component";
+import {OverviewModule} from './home/overview';
+import {WikiPageModule} from './home/wikipage';
 
 import "rxjs";
 
@@ -29,10 +32,12 @@ require("../styles/global.scss");
               FlexLayoutModule,
               FormsModule,
               HttpModule,
-              MarkdownToHtmlModule],
-    declarations: [AppComponent, MDToHtmlPipe],
+              OverviewModule,
+              WikiPageModule,
+              AppRoutingModule],
+    declarations: [HomeComponent],
     providers: [WikiPageService, HttpHeadersService],
-    bootstrap: [AppComponent]
+    bootstrap: [HomeComponent]
 })
 class GitWikiModule {}
 

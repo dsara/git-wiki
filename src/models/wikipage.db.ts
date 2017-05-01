@@ -5,8 +5,9 @@ var _schema: mongoose.Schema = new mongoose.Schema({
     name: { type: String, required: true },
     content: { type: String, required: true },
     created: { type: Date, required: true },
-    modified: { type: String, required: true },
-    version: { type: Number, required: true }
+    modified: { type: Date, required: true },
+    version: { type: Number, required: true },
+    path: { type: String, required: true }
 });
 
 type WikiPageType = IWikiPage & mongoose.Document;

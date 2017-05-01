@@ -14,11 +14,12 @@ export default function(db) {
 
     // database connection
     mongoose.connect('mongodb://localhost:27017/gitwiki');
+    (<any>mongoose).Promise = global.Promise;
     var mdb: mongoose.Connection = mongoose.connection;
     mdb.on('error', console.error.bind(console, 'connection error:'));
 
-    app.set('views', path.join(__dirname, "../views"));
-    app.set('view engine', 'pug');
+    // app.set('views', path.join(__dirname, "../views"));
+    // app.set('view engine', 'pug');
 
     console.log("Environment: " + app.get('env'));
 
@@ -40,11 +41,17 @@ export default function(db) {
 
     // define routes
     // --------------------------------------
-    app.use('/', index);
+
+    //app.use('/', index);
     app.use('/api', api);
     // app.use('/users', users);
 
-
+    // app.use((req: express.Request, res: express.Response): void => {
+    //     res.render('index');
+    // });
+    app.all('*', (req: express.Request, res: express.Response, next: Function): void => {
+        res.sendFile(path.join(__dirname, '../views/index.html'));
+    });
 
     // catch 404 and forward to error handler
     app.use((req: express.Request, res: express.Response, next: Function): void => {

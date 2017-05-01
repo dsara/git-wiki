@@ -3,8 +3,8 @@ import {wikiPageModel} from '../models';
 import * as mongoose from 'mongoose';
 
 export class WikiPage {
-    static getWikiPage(title: string): Promise<IWikiPage> {
-        return wikiPageModel.findOne({ name: /^New Title$/ }, (err, wikiPage) => {
+    static getWikiPage(path: string): Promise<IWikiPage> {
+        return wikiPageModel.findOne({ path: path }, (err, wikiPage) => {
             if (err) {
                 console.error(err);
             }
@@ -14,6 +14,15 @@ export class WikiPage {
 
     static newWikiPage(wikiPage: IWikiPage): Promise<IWikiPage> {
        return wikiPageModel.create(wikiPage, (err: any, wikiPage) => {
+            if (err) {
+                console.error(err);
+            }
+            return wikiPage;
+        });
+    }
+
+    static saveWikiPage(wikiPage: IWikiPage): Promise<IWikiPage> {
+        return wikiPageModel.findByIdAndUpdate(wikiPage._id, wikiPage, (err: any, wikiPage) => {
             if (err) {
                 console.error(err);
             }

@@ -1,0 +1,11 @@
+div.col-sm-6
+    md-input-container.markdown-name-container
+        input.markdown-name(type='text' mdInput='' placeholder='Page Name' '[(ngModel)]'='currentPage.name' required='')
+        md-error This is required
+    md-input-container.markdown-container
+        textarea.markdown-source(mdInput='' mdTextareaAutosize='' minRows='20' maxRows='500' placeholder='Markdown Source' mdAutosizeMaxRows='400' '[(ngModel)]'='currentPage.content' required='')
+        md-error This is required
+    button(md-raised-button="" color="primary" '(click)'='saveWikiPage()') save markdown
+div.col-sm-6
+    h1('[innerHtml]'='currentPage.name')
+    div('[innerHtml]'='currentPage.content|mdToHtml')

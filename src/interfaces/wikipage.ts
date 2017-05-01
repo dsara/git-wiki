@@ -4,5 +4,6 @@ export interface IWikiPage {
     content: string;
     created: string;
     modified: string;
+    path: string;
     version: number;
 }

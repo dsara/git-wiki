@@ -1,0 +1,11 @@
+@import '../../../styles/candy-carousel-theme';
+
+.markdown-container {
+  width: 100%;
+
+  .markdown-source {
+    @include mono-font;
+    @include font-size-normal;
+    width: 100%;
+  }
+}

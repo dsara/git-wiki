@@ -1,0 +1,10 @@
+md-toolbar(color="accent")
+  i.material-icons.md-36 menu
+  span Express Application
+md-sidenav-container
+  md-sidenav.side-nav(mode="side" "[opened]"="true")
+    div.col-xs-12
+      h3 Left Nav Is here
+      button(md-raised-button="" color="primary") left nav button
+  div
+    router-outlet
