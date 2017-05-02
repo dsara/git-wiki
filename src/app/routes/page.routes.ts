@@ -6,15 +6,18 @@ import {WikiPageComponent} from '../home/wikipage';
 
 const appRoutes: Routes = [
     {
-        path: '', component: OverviewComponent
+        path: 'overview', component: OverviewComponent
     },
     {
-        path: 'wiki/:wikipath', component: WikiPageComponent
+        path: 'wiki', children: [ { path: '**', component: WikiPageComponent } ]
+    },
+    {
+        path: '', redirectTo: '/overview', pathMatch: 'full'
     }
 ];
 
 @NgModule({
-    imports: [ RouterModule.forRoot(appRoutes) ],
+    imports: [ RouterModule.forRoot(appRoutes, { useHash: true }) ],
     exports: [ RouterModule ]
 })
 
