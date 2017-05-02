@@ -13,7 +13,7 @@ export class WikiPage {
     }
 
     static getWikiPages(): Promise<IWikiPage[]> {
-        return wikiPageModel.find({}, (err, wikiPages: IWikiPage[]) => {
+        return wikiPageModel.find({}).exec((err, wikiPages: IWikiPage[]) => {
             if (err) {
                 console.error(err);
             }
@@ -22,20 +22,20 @@ export class WikiPage {
     }
 
     static newWikiPage(wikiPage: IWikiPage): Promise<IWikiPage> {
-       return wikiPageModel.create(wikiPage, (err: any, wikiPage) => {
+       return wikiPageModel.create(wikiPage, (err: any, resWikiPage) => {
             if (err) {
                 console.error(err);
             }
-            return wikiPage;
+            return resWikiPage;
         });
     }
 
     static saveWikiPage(wikiPage: IWikiPage): Promise<IWikiPage> {
-        return wikiPageModel.findByIdAndUpdate(wikiPage._id, wikiPage, (err: any, wikiPage) => {
+        return wikiPageModel.findByIdAndUpdate(wikiPage._id, wikiPage).exec((err: any, resWikiPage) => {
             if (err) {
                 console.error(err);
             }
-            return wikiPage;
+            return resWikiPage;
         });
     }
 }
