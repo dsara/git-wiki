@@ -17,11 +17,11 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
 }
 
 
-$font-size-xsmall: '11px';
-$font-size-small: '12px';
-$font-size-normal: '13px';
-$font-size-large: '14px';
-$font-size-xlarge: '15px';
+$font-size-xsmall: 11px;
+$font-size-small: 12px;
+$font-size-normal: 13px;
+$font-size-large: 14px;
+$font-size-xlarge: 15px;
 
 @mixin font-size-xsmall {
   font-size: $font-size-xsmall;
@@ -41,4 +41,8 @@ $font-size-xlarge: '15px';
 
 @mixin font-size-xlarge {
   font-size: $font-size-xlarge;
+}
+
+@mixin raised-element {
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
 }
