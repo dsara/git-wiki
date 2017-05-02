@@ -13,6 +13,13 @@ router.get('/pages/:path', function(req, res, next) {
   });
 });
 
+router.get('/pages', (req, res, next) => {
+  res.set('Content-Type', 'application/json');
+  WikiPage.getWikiPages().then((wikiPages) => {
+    res.send(wikiPages);
+  });
+});
+
 router.post('/pages', (req, res, next) => {
   res.set('Content-Type', 'application/json');
   WikiPage.newWikiPage(req.body).then((wikiPage) => {
