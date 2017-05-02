@@ -8,7 +8,7 @@ var router = express.Router();
 // api for pages
 router.get('/pages/:path', function(req, res, next) {
   res.set('Content-Type', 'application/json');
-  WikiPage.getWikiPage(decodeURIComponent(req.param('path'))).then((wikiPage) => {
+  WikiPage.getWikiPage(decodeURIComponent(req.params.path)).then((wikiPage) => {
     res.send(wikiPage);
   });
 });
@@ -27,7 +27,7 @@ router.post('/pages', (req, res, next) => {
   });
 });
 
-router.put('/pages/update', (req, res, next) => {
+router.post('/pages/update', (req, res, next) => {
   res.set('Content-Type', 'application/json');
   WikiPage.saveWikiPage(req.body).then((wikiPage) => {
     res.send(wikiPage);
