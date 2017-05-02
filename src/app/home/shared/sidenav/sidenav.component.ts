@@ -36,6 +36,7 @@ export class SideNavComponent implements OnInit {
                     console.error(err);
                 }     
             );
+    }
     //     // this.route.url
     //     //     .subscribe((url: UrlSegment[]) => {
     //     //         this.wikiPageService.getWikiPage(url.map((urlSegment, ind: number) => { if (ind !== 0) {return urlSegment.path;} }).join('/'))
