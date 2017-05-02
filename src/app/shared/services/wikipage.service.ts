@@ -1,4 +1,4 @@
-import {Injectable} from "@angular/core";
+import {Injectable, Input, Output, EventEmitter} from "@angular/core";
 import {Http, Response, RequestOptions} from "@angular/http";
 
 import {IWikiPage} from '../../../interfaces';
@@ -40,6 +40,22 @@ export class WikiPageService {
                         path: path,
                         version: 0
                     };
+                }
+            })
+            .catch(this.handleError);
+    }
+
+    getAllWikiPages(deep?: number): Observable<IWikiPage[]> {
+        var reqOptions = new RequestOptions({
+            headers: this.httpHeaders.GETDefaultHeaders()
+        });
+
+        return this.http.get("/api/pages", reqOptions)
+            .map((res: Response) => {
+                try {
+                    res.json();
+                } catch(err) {
+                    return [];
                 }
             })
             .catch(this.handleError);
