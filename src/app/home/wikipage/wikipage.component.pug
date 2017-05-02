@@ -1,11 +1,17 @@
+div.col-sm-6('[formGroup]'='markdownForm')
+    div.markdown-editor
+        md-input-container.markdown-container
+            input.markdown-name(type='text' mdInput='' placeholder='Page Name' '[(ngModel)]'='currentPage.name' required='' formControlName='markdownTitle')
+            md-error This is required
+        md-input-container.markdown-container
+            textarea.markdown-source(mdInput='' mdTextareaAutosize='' minRows='20' maxRows='500' placeholder='Markdown Source' mdAutosizeMaxRows='400' '[(ngModel)]'='currentPage.content' required='' formControlName='markdownContent')
+            md-error This is required
+        button(md-raised-button="" color="primary" '(click)'='saveWikiPage()' '[disabled]'='!markdownForm.valid') Save Page
 div.col-sm-6
-    md-input-container.markdown-name-container
-        input.markdown-name(type='text' mdInput='' placeholder='Page Name' '[(ngModel)]'='currentPage.name' required='')
-        md-error This is required
-    md-input-container.markdown-container
-        textarea.markdown-source(mdInput='' mdTextareaAutosize='' minRows='20' maxRows='500' placeholder='Markdown Source' mdAutosizeMaxRows='400' '[(ngModel)]'='currentPage.content' required='')
-        md-error This is required
-    button(md-raised-button="" color="primary" '(click)'='saveWikiPage()') save markdown
-div.col-sm-6
-    h1('[innerHtml]'='currentPage.name')
-    div('[innerHtml]'='currentPage.content|mdToHtml')
+    div.markdown-viewer
+        h1('[innerHtml]'='currentPage.name')
+        div('[innerHtml]'='currentPage.content|mdToHtml')
+        div.viewer-info(fxLayout='row')
+            div(fxFlex='1 1' fxFlexFill='') Created: {{currentPage.created | date:"yyyy.MM.dd HH:mm:ss Z"}}
+            div(fxFlex='1 1' fxFlexFill='') Modified: {{currentPage.modified | date:"yyyy.MM.dd HH:mm:ss Z"}}
+            div(fxFlex='1 1' fxFlexFill='') Edited by dsara

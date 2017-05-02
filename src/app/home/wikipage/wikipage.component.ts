@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewContainerRef, Output, EventEmitter } from "@angular/core";
 import { Router, ActivatedRoute, Params, UrlSegment } from "@angular/router";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 import {IWikiPage} from "../../../interfaces";
 import {WikiPageService} from '../../shared/services';
@@ -14,9 +15,13 @@ import 'rxjs/add/operator/switchMap';
 export class WikiPageComponent implements OnInit {
     @Output() wikiPageUpdated = new EventEmitter();
     private currentPage: IWikiPage = <IWikiPage>{ content: "", created: Date.now().toString(), modified: Date.now().toString(), name: "", version: 0 };
-    
-    constructor(private wikiPageService: WikiPageService, private route: ActivatedRoute, private router: Router) {
+    markdownForm: FormGroup;
 
+    constructor(private wikiPageService: WikiPageService, private route: ActivatedRoute, private router: Router) {
+        this.markdownForm = new FormGroup({
+            markdownTitle: new FormControl({ value: '', disabled: false }, Validators.required),
+            markdownContent: new FormControl({ value: '', disabled: false }, Validators.required)
+        });
     }
 
     ngOnInit(): void {
@@ -24,9 +29,12 @@ export class WikiPageComponent implements OnInit {
         this.route.url
             .subscribe((url: UrlSegment[]) => {
                 // console.log(url);
+
+
                 this.wikiPageService.getWikiPage(url.map((urlSegment, ind: number) => { return urlSegment.path }).join('/'))
                     .subscribe(
                         (wikiPage: IWikiPage) => {
+                            this.markdownForm.markAsUntouched();
                             if (wikiPage) {
                                 this.currentPage = wikiPage;
                             } else {
@@ -56,20 +64,8 @@ export class WikiPageComponent implements OnInit {
     }
 
     saveWikiPage() {
-        var wikiPage: IWikiPage = <IWikiPage>{};
-
         if (this.currentPage._id) {
-            wikiPage._id = this.currentPage._id;
-        }
-        wikiPage.content = this.currentPage.content;
-        wikiPage.name = this.currentPage.name;
-        wikiPage.created = this.currentPage.created;
-        wikiPage.modified = Date.now().toString();
-        wikiPage.version = this.currentPage.version + 1;
-        wikiPage.path = this.currentPage.path;
-
-        if (wikiPage._id) {
-            this.wikiPageService.updateWikiPage(wikiPage)
+            this.wikiPageService.updateWikiPage(this.currentPage)
                 .subscribe(
                     (resWikiPage: IWikiPage) => {
                         console.log('updated existing wiki', resWikiPage);
@@ -79,10 +75,11 @@ export class WikiPageComponent implements OnInit {
                     }
                 )
         } else {
-            this.wikiPageService.createWikiPage(wikiPage)
+            this.wikiPageService.createWikiPage(this.currentPage)
                 .subscribe(
                     (resWikiPage: IWikiPage) => {
                         console.log("created new wiki", resWikiPage);
+                        this.currentPage = resWikiPage;
                     },
                     (err: any) => {
                         console.error(err);

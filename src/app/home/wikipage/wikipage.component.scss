@@ -1,11 +1,31 @@
+@import '~@angular/material/theming';
 @import '../../../styles/candy-carousel-theme';
 
-.markdown-container {
-  width: 100%;
+.markdown-editor {
+  @include raised-element;
+  margin: 10px 0;
+  padding: 10px;
 
-  .markdown-source {
-    @include mono-font;
-    @include font-size-normal;
+  .markdown-container {
+    padding-bottom: 10px;
     width: 100%;
+
+    .markdown-source {
+      @include mono-font;
+      @include font-size-normal;
+      width: 100%;
+    }
+  }
+}
+
+.markdown-viewer {
+  @include raised-element;
+  margin: 10px 0;
+  padding: 5px 20px;
+
+  .viewer-info {
+    border-top: 1px solid mat-color($candy-app-primary, A400);
+    margin-top: 20px;
+    padding: 20px 0 15px;
   }
 }

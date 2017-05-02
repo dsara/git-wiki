@@ -53,7 +53,7 @@ export class WikiPageService {
         return this.http.get("/api/pages", reqOptions)
             .map((res: Response) => {
                 try {
-                    res.json();
+                    return res.json();
                 } catch(err) {
                     return [];
                 }
@@ -61,7 +61,9 @@ export class WikiPageService {
             .catch(this.handleError);
     }
 
-    createWikiPage(wikiPage: IWikiPage): Observable<IWikiPage> {
+    createWikiPage(currentPage: IWikiPage): Observable<IWikiPage> {
+        var wikiPage: IWikiPage = this.createWikiPageSaveObject(currentPage);
+
         var reqOptions = new RequestOptions( {
             headers: this.httpHeaders.POSTDefaultHeaders()
         });
@@ -71,14 +73,34 @@ export class WikiPageService {
             .catch(this.handleError);
     }
 
-    updateWikiPage(wikiPage: IWikiPage): Observable<IWikiPage> {
+    updateWikiPage(currentPage: IWikiPage): Observable<IWikiPage> {
+        var wikiPage: IWikiPage = this.createWikiPageSaveObject(currentPage);
+
         var reqOptions = new RequestOptions( {
             headers: this.httpHeaders.POSTDefaultHeaders()
         });
 
         return this.http.post("/api/pages/update", JSON.stringify(wikiPage), reqOptions)
-            .map((res: Response) => res.json())
+            .map((res: Response) => {
+                return res.json();
+            })
             .catch(this.handleError);
+    }
+
+    createWikiPageSaveObject(page: IWikiPage): IWikiPage {
+        var wikiPage: IWikiPage = <IWikiPage>{};
+
+        if (page._id) {
+            wikiPage._id = page._id;
+        }
+        wikiPage.content = page.content;
+        wikiPage.name = page.name;
+        wikiPage.created = page.created;
+        wikiPage.modified = Date.now().toString();
+        wikiPage.version = page.version + 1;
+        wikiPage.path = page.path;
+
+        return wikiPage;
     }
 
     private handleError(error: Response): ErrorObservable {
