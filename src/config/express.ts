@@ -18,8 +18,8 @@ export default function(db) {
     var mdb: mongoose.Connection = mongoose.connection;
     mdb.on('error', console.error.bind(console, 'connection error:'));
 
-    // app.set('views', path.join(__dirname, "../views"));
-    // app.set('view engine', 'pug');
+    app.set('views', path.join(__dirname, "../views"));
+    app.set('view engine', 'pug');
 
     console.log("Environment: " + app.get('env'));
 
@@ -50,7 +50,8 @@ export default function(db) {
     //     res.render('index');
     // });
     app.all('*', (req: express.Request, res: express.Response, next: Function): void => {
-        res.sendFile(path.join(__dirname, '../views/index.html'));
+        res.render('index');
+        //res.sendFile(path.join(__dirname, '../views/index.html'));
     });
 
     // catch 404 and forward to error handler
