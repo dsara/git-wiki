@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewContainerRef } from "@angular/core";
-import { Router, ActivatedRoute, Params } from "@angular/router";
+import { Component, OnInit, ViewContainerRef, Output, EventEmitter } from "@angular/core";
+import { Router, ActivatedRoute, Params, UrlSegment } from "@angular/router";
 
 import {IWikiPage} from "../../../interfaces";
 import {WikiPageService} from '../../shared/services';
@@ -12,6 +12,7 @@ import 'rxjs/add/operator/switchMap';
 })
 
 export class WikiPageComponent implements OnInit {
+    @Output() wikiPageUpdated = new EventEmitter();
     private currentPage: IWikiPage = <IWikiPage>{ content: "", created: Date.now().toString(), modified: Date.now().toString(), name: "", version: 0 };
     
     constructor(private wikiPageService: WikiPageService, private route: ActivatedRoute, private router: Router) {
@@ -20,20 +21,38 @@ export class WikiPageComponent implements OnInit {
 
     ngOnInit(): void {
 
-        this.route.params
-            .switchMap((params: Params) => this.wikiPageService.getWikiPage(params['wikipath']))
-                .subscribe(
-                    (wikiPage: IWikiPage) => {
-                        if (wikiPage) {
-                            this.currentPage = wikiPage;
-                        } else {
-                            console.error("No Page or Empty Page Returned");
+        this.route.url
+            .subscribe((url: UrlSegment[]) => {
+                // console.log(url);
+                this.wikiPageService.getWikiPage(url.map((urlSegment, ind: number) => { return urlSegment.path }).join('/'))
+                    .subscribe(
+                        (wikiPage: IWikiPage) => {
+                            if (wikiPage) {
+                                this.currentPage = wikiPage;
+                            } else {
+                                console.error('No page or empty page returned');
+                            }
+                        },
+                        (err: any) => {
+                            console.error(err);
                         }
-                    },
-                    (err: any) => {
-                        console.error(err);
-                    }
-                );
+                    );
+            });
+
+        // this.route.params
+        //     .switchMap((params: Params) => this.wikiPageService.getWikiPage(params['wikipath']))
+        //         .subscribe(
+        //             (wikiPage: IWikiPage) => {
+        //                 if (wikiPage) {
+        //                     this.currentPage = wikiPage;
+        //                 } else {
+        //                     console.error("No Page or Empty Page Returned");
+        //                 }
+        //             },
+        //             (err: any) => {
+        //                 console.error(err);
+        //             }
+        //         );
     }
 
     saveWikiPage() {
