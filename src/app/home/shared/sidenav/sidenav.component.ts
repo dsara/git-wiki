@@ -7,9 +7,9 @@ import {WikiPageService} from '../../../shared/services';
 import 'rxjs/add/operator/switchMap';
 
 @Component({
-    selector: 'gitwiki-sidenav',
-    templateUrl: "wikipage.component.pug",
-    styleUrls: ["wikipage.component.scss"]
+    selector: 'git-wiki-sidenav',
+    templateUrl: "sidenav.component.pug",
+    styleUrls: ["sidenav.component.scss"]
 })
 
 export class SideNavComponent implements OnInit {
@@ -27,9 +27,24 @@ export class SideNavComponent implements OnInit {
                     if (wikiPages.length > 0) {
                         this.allWikipages = wikiPages;
 
-                        // wikiPages.forEach(wikiPage => {
-                        //     this.buildChildNavItems(wikiPage, 0);
-                        // });
+                        this.allWikipages.forEach(wikiPage => {
+                            let exists = false;
+                            for (let i = 0; i < this.allWikiPagesNav.length; i++) {
+                                if (wikiPage.path.split('/')[0] == this.allWikiPagesNav[i].path) {
+                                    exists = true;
+                                    break;
+                                }
+                            }
+                            if (!exists) {
+                                let newPageNav: IWikiNav = <IWikiNav>{};
+                                newPageNav.children = [];
+                                newPageNav.id = wikiPage.path.split('/').length == 1 ? wikiPage._id : "";
+                                newPageNav.name = wikiPage.path.split('/').length == 1 ? wikiPage.name : wikiPage.path.split('/')[0];
+                                newPageNav.path = wikiPage.path.split('/')[0];
+
+                                this.allWikiPagesNav.push(newPageNav);
+                            }
+                        });
                     }
                 },
                 (err: any) => {
@@ -37,46 +52,4 @@ export class SideNavComponent implements OnInit {
                 }     
             );
     }
-    //     // this.route.url
-    //     //     .subscribe((url: UrlSegment[]) => {
-    //     //         this.wikiPageService.getWikiPage(url.map((urlSegment, ind: number) => { if (ind !== 0) {return urlSegment.path;} }).join('/'))
-    //     //             .subscribe(
-    //     //                 (wikiPage: IWikiPage) => {
-    //     //                     if (wikiPage) {
-    //     //                         this.currentPage = wikiPage;
-    //     //                     } else {
-    //     //                         console.error('No page or empty page returned');
-    //     //                     }
-    //     //                 },
-    //     //                 (err: any) => {
-    //     //                     console.error(err);
-    //     //                 }
-    //     //             );
-    //     //     });
-    // }
-
-    // buildChildNavItems(wikiPage: IWikiPage, level: number) {
-    //     let paths = wikiPage.path.split('/');
-
-    //     for (let i = 0; i < paths.length; i++) {
-    //         this.findWikiPageOnLevel(this.allWikiPagesNav, paths[i], i);
-    //     }
-
-    //     if (!this.findWikiPageOnLevel(this.allWikiPagesNav, wikiPage._id)) {
-
-    //     }
-    // }
-
-    // findWikiPageOnLevel(wikiNavs: IWikiNav[], pageName: string, level: number): boolean {
-    //     wikiNavs.forEach((wikiNav: IWikiNav) => {
-    //         if (wikiNav.name == pageName) {
-    //             return true;
-    //         }
-    //         if (wikiNav.children.length > 0) {
-    //             return this.findWikiPageOnLevel(wikiNav.children, pageName);
-    //         }
-    //     });
-
-    //     return false;
-    // }
 };
