@@ -7,3 +7,10 @@ export interface IWikiPage {
     path: string;
     version: number;
 }
+
+export interface IWikiNav {
+    id: string;
+    name: string;
+    path: string;
+    children: IWikiNav[];
+}
