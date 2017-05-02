@@ -42,17 +42,17 @@ export default function(db) {
     // define routes
     // --------------------------------------
 
-    //app.use('/', index);
+    app.use('/', index);
     app.use('/api', api);
     // app.use('/users', users);
 
     // app.use((req: express.Request, res: express.Response): void => {
     //     res.render('index');
     // });
-    app.all('*', (req: express.Request, res: express.Response, next: Function): void => {
-        res.render('index');
-        //res.sendFile(path.join(__dirname, '../views/index.html'));
-    });
+    // app.all('*', (req: express.Request, res: express.Response, next: Function): void => {
+    //     res.render('index');
+    //     //res.sendFile(path.join(__dirname, '../views/index.html'));
+    // });
 
     // catch 404 and forward to error handler
     app.use((req: express.Request, res: express.Response, next: Function): void => {
