@@ -13,4 +13,5 @@ export interface IWikiNav {
     name: string;
     path: string;
     children: IWikiNav[];
+    showChildren: boolean;
 }
