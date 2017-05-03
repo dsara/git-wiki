@@ -1,0 +1,7 @@
+ul
+    li('*ngFor'='let navItem of items' '[ngClass]'='{"sidenav-end" : navItem.children.length == 0}')
+        span.glyphicon.glyphicon-plus('*ngIf'='navItem.children.length > 0 && !navItem.showChildren' '(click)'='toggleChildren(navItem)')
+        span.glyphicon.glyphicon-minus('*ngIf'='navItem.children.length > 0 && navItem.showChildren' '(click)'='toggleChildren(navItem)')
+        a('[routerLink]'='"wiki/" + navItem.path')
+            |  {{navItem.name}}
+        side-nav-tree('*ngIf'='navItem.children.length > 0' '[hidden]'='!navItem.showChildren' '[items]'='navItem.children')

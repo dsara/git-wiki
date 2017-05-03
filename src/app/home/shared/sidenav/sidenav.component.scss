@@ -1,0 +1,19 @@
+git-wiki-sidenav {
+
+  ul {
+    list-style: none;
+    padding-left: 0;
+
+    li ul {
+      padding-left: 20px;
+    }
+   }
+
+  li {
+    display: block;
+
+    &.sidenav-end {
+      padding-left: 14px;
+    }
+  }
+}
