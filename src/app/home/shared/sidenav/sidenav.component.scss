@@ -5,15 +5,16 @@ git-wiki-sidenav {
     padding-left: 0;
 
     li ul {
-      padding-left: 20px;
+      padding-left: 16px;
     }
    }
 
   li {
     display: block;
+    padding-top: 2px;
 
     &.sidenav-end {
-      padding-left: 14px;
+      padding-left: 16px;
     }
   }
 }
