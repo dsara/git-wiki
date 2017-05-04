@@ -6,7 +6,16 @@ div.col-sm-6('[formGroup]'='markdownForm')
         md-input-container.markdown-container
             textarea.markdown-source(mdInput='' mdTextareaAutosize='' minRows='20' maxRows='500' placeholder='Markdown Source' mdAutosizeMaxRows='400' '[(ngModel)]'='currentPage.content' required='' formControlName='markdownContent')
             md-error This is required
-        button(md-raised-button="" color="primary" '(click)'='saveWikiPage()' '[disabled]'='!markdownForm.valid') Save Page
+        md-input-container.markdown-container
+            input.markdown-tags('#tagBox'='' type='text' mdInput='' placeholder='Tags' formControlName='markdownTags' '(ngModelChange)'='modelChangeNotify($event)' '[mdAutocomplete]'='tagAutocomplete' '(keyup.enter)'='addTagToPage(tagBox.value)')
+        md-autocomplete('#tagAutocomplete'='mdAutocomplete' '[displayWith]'='displayTag')
+            md-option('*ngFor'='let option of filteredTagOptions | async' '[value]'='option') {{option.name}}
+        md-chip-list
+            md-chip('*ngFor'='let tag of currentPage.tags')
+                | {{tag}} 
+                span.glyphicon.glyphicon-remove('(click)'='removeTagFromPage(tag)')
+        div.markdown-editor-buttons
+            button(md-raised-button="" color="primary" '(click)'='saveWikiPage()' '[disabled]'='!markdownForm.valid') Save Page
 div.col-sm-6
     div.markdown-viewer
         h1('[innerHtml]'='currentPage.name')

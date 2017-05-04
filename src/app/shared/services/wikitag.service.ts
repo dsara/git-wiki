@@ -1,58 +1,71 @@
 import {Injectable, Input, Output, EventEmitter} from "@angular/core";
 import {Http, Response, RequestOptions} from "@angular/http";
 
-import {IWikiPage} from '../../../interfaces';
+import {IWikiPage, IWikiTag} from '../../../interfaces';
 import {HttpHeadersService} from "./http-headers.service";
 
 import {Observable} from "rxjs/Observable";
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 
 @Injectable()
-export class WikiPageService {
+export class WikiTagService {
     constructor(private http: Http, private httpHeaders: HttpHeadersService) { }
 
-    getWikiPage(path: string): Observable<IWikiPage> {
+    getWikiTag(tagName: string): Observable<IWikiTag> {
         var reqOptions = new RequestOptions({
             headers: this.httpHeaders.GETDefaultHeaders()
         });
 
-        return this.http.get("/api/pages/" + encodeURIComponent(path), reqOptions)
+        return this.http.get("/api/tags/" + encodeURIComponent(tagName), reqOptions)
             .map((res: Response) => {
                 if(res){
                     try {
                         return res.json();
                     } catch(err) {
-                        return <IWikiPage> {
-                            content: "",
+                        return <IWikiTag> {
                             created: Date.now().toString(),
                             modified: Date.now().toString(),
-                            name: '',
-                            path: path,
-                            version: 0,
-                            tags: []
+                            name: ''
                         };
                     }
                 } else {
-                    return <IWikiPage> {
-                        content: "",
+                    return <IWikiTag> {
                         created: Date.now().toString(),
                         modified: Date.now().toString(),
-                        name: '',
-                        path: path,
-                        version: 0,
-                        tags: []
+                        name: ''
                     };
                 }
             })
             .catch(this.handleError);
     }
 
-    getAllWikiPages(deep?: number): Observable<IWikiPage[]> {
+    getWikiTags(tagName: string): Observable<IWikiTag[]> {
         var reqOptions = new RequestOptions({
             headers: this.httpHeaders.GETDefaultHeaders()
         });
 
-        return this.http.get("/api/pages", reqOptions)
+        return this.http.get("/api/tags/search/" + encodeURIComponent(tagName), reqOptions)
+            .map((res: Response) => {
+                if(res){
+                    try {
+                        return res.json();
+                    } catch(err) {
+                        return [];
+                    }
+                } else {
+                    return [];
+                }
+            })
+            .catch(this.handleError);
+    }
+
+
+    getAllWikiTags(deep?: number): Observable<IWikiTag[]> {
+        var reqOptions = new RequestOptions({
+            headers: this.httpHeaders.GETDefaultHeaders()
+        });
+
+        return this.http.get("/api/tags", reqOptions)
             .map((res: Response) => {
                 try {
                     return res.json();
@@ -63,47 +76,43 @@ export class WikiPageService {
             .catch(this.handleError);
     }
 
-    createWikiPage(currentPage: IWikiPage): Observable<IWikiPage> {
-        var wikiPage: IWikiPage = this.createWikiPageSaveObject(currentPage);
+    createWikiTag(currentTag: IWikiTag): Observable<IWikiTag> {
+        var wikiTag: IWikiTag = this.createWikiTagSaveObject(currentTag);
 
         var reqOptions = new RequestOptions( {
             headers: this.httpHeaders.POSTDefaultHeaders()
         });
 
-        return this.http.post("/api/pages", JSON.stringify(wikiPage), reqOptions)
+        return this.http.post("/api/tags", JSON.stringify(wikiTag), reqOptions)
             .map((res: Response) => res.json())
             .catch(this.handleError);
     }
 
-    updateWikiPage(currentPage: IWikiPage): Observable<IWikiPage> {
-        var wikiPage: IWikiPage = this.createWikiPageSaveObject(currentPage);
+    updateWikiTag(currentTag: IWikiTag): Observable<IWikiTag> {
+        var wikiTag: IWikiTag = this.createWikiTagSaveObject(currentTag);
 
         var reqOptions = new RequestOptions( {
             headers: this.httpHeaders.POSTDefaultHeaders()
         });
 
-        return this.http.post("/api/pages/update", JSON.stringify(wikiPage), reqOptions)
+        return this.http.post("/api/tags/update", JSON.stringify(wikiTag), reqOptions)
             .map((res: Response) => {
                 return res.json();
             })
             .catch(this.handleError);
     }
 
-    createWikiPageSaveObject(page: IWikiPage): IWikiPage {
-        var wikiPage: IWikiPage = <IWikiPage>{};
+    createWikiTagSaveObject(tag: IWikiTag): IWikiTag {
+        var wikiTag: IWikiTag = <IWikiTag>{};
 
-        if (page._id) {
-            wikiPage._id = page._id;
+        if (wikiTag._id) {
+            wikiTag._id = tag._id;
         }
-        wikiPage.content = page.content;
-        wikiPage.name = page.name;
-        wikiPage.created = page.created;
-        wikiPage.modified = Date.now().toString();
-        wikiPage.version = page.version + 1;
-        wikiPage.path = page.path;
-        wikiPage.tags = page.tags;
+        wikiTag.name = tag.name;
+        wikiTag.created = tag.created;
+        wikiTag.modified = tag.modified;
 
-        return wikiPage;
+        return wikiTag;
     }
 
     private handleError(error: Response): ErrorObservable {

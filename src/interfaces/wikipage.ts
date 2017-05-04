@@ -6,6 +6,7 @@ export interface IWikiPage {
     modified: string;
     path: string;
     version: number;
+    tags: string[];
 }
 
 export interface IWikiNav {

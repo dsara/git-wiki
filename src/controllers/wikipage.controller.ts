@@ -31,7 +31,7 @@ export class WikiPage {
     }
 
     static saveWikiPage(wikiPage: IWikiPage): Promise<IWikiPage> {
-        return wikiPageModel.findByIdAndUpdate(wikiPage._id, wikiPage).exec((err: any, resWikiPage) => {
+        return wikiPageModel.findByIdAndUpdate(wikiPage._id, wikiPage, { new: true }).exec((err: any, resWikiPage) => {
             if (err) {
                 console.error(err);
             }
