@@ -22,18 +22,10 @@ export class WikiTagService {
                     try {
                         return res.json();
                     } catch(err) {
-                        return <IWikiTag> {
-                            created: Date.now().toString(),
-                            modified: Date.now().toString(),
-                            name: ''
-                        };
+                        return null;
                     }
                 } else {
-                    return <IWikiTag> {
-                        created: Date.now().toString(),
-                        modified: Date.now().toString(),
-                        name: ''
-                    };
+                    return null;
                 }
             })
             .catch(this.handleError);

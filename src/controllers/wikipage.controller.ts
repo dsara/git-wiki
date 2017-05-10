@@ -21,6 +21,15 @@ export class WikiPage {
         });
     }
 
+    static getWikiNavPages(): Promise<IWikiPage[]> {
+        return wikiPageModel.find({}).select('name path').exec((err, wikiPagesNav: IWikiPage[]) => {
+            if (err) {
+                console.error(err);
+            }
+            return wikiPagesNav;
+        })
+    }
+
     static newWikiPage(wikiPage: IWikiPage): Promise<IWikiPage> {
        return wikiPageModel.create(wikiPage, (err: any, resWikiPage) => {
             if (err) {

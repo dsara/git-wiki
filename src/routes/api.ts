@@ -20,6 +20,13 @@ router.get('/pages', (req, res, next) => {
     });
 });
 
+router.get('/nav', (req, res, next) => {
+    res.set('Content-Type', 'application/json');
+    WikiPage.getWikiNavPages().then((wikiNavPages) => {
+        res.send(wikiNavPages);
+    });
+});
+
 router.post('/pages', (req, res, next) => {
     res.set('Content-Type', 'application/json');
     WikiPage.newWikiPage(req.body).then((wikiPage) => {

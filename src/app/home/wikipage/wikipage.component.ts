@@ -97,54 +97,54 @@ export class WikiPageComponent implements OnInit {
 
     addTagToPage(tagValue: IWikiTag | string) {
         if (typeof tagValue === 'object') {
-            if (tagValue._id) {
-                this.wikiTagService.updateWikiTag(tagValue)
+            if (this.currentPage.tags.indexOf(tagValue.name) == -1) {
+                this.currentPage.tags.push(tagValue.name);
+            }
+            this.markdownForm.controls['markdownTags'].setValue("");
+        } else {
+            if (tagValue) {
+                this.wikiTagService.getWikiTag(tagValue)
                     .subscribe(
                         (resWikiTag: IWikiTag) => {
-                            console.log('updated existing tag', resWikiTag);
-                            if(this.currentPage.tags.indexOf(resWikiTag._id) == -1) {
-                                this.currentPage.tags.push(resWikiTag.name);
+                            if (resWikiTag) {
+                                if (this.currentPage.tags.indexOf(resWikiTag.name) == -1) {
+                                    this.currentPage.tags.push(resWikiTag.name);
+                                }
+                                this.markdownForm.controls['markdownTags'].setValue("");
+                            } else {
+                                let newTag: IWikiTag = <IWikiTag> {};
+                                newTag.created = Date.now().toString();
+                                newTag.modified = Date.now().toString();
+                                newTag.name = tagValue;
+
+                                this.wikiTagService.createWikiTag(newTag)
+                                    .subscribe(
+                                        (createdWikiTag: IWikiTag) => {
+                                            console.log('created new tag', createdWikiTag);
+                                            this.currentPage.tags.push(createdWikiTag.name);
+                                            this.markdownForm.controls['markdownTags'].setValue("");
+                                        },
+                                        (err: any) => {
+                                            console.error(err);
+                                        }
+                                    )
                             }
                         },
                         (err: any) => {
                             console.error(err);
                         }
                     )
-            } else {
-                this.wikiTagService.createWikiTag(tagValue)
-                    .subscribe(
-                        (resWikiTag: IWikiTag) => {
-                            console.log('created new tag', resWikiTag);
-                            this.currentPage.tags.push(resWikiTag.name);
-                        },
-                        (err: any) => {
-                            console.error(err);
-                        }
-                    )
-            }
-        } else {
-            if (tagValue) {
-                let newTag: IWikiTag = <IWikiTag> {};
-                newTag.created = Date.now().toString();
-                newTag.modified = Date.now().toString();
-                newTag.name = tagValue;
 
-                this.wikiTagService.createWikiTag(newTag)
-                    .subscribe(
-                        (resWikiTag: IWikiTag) => {
-                            console.log('created new tag', resWikiTag);
-                            this.currentPage.tags.push(resWikiTag.name);
-                        },
-                        (err: any) => {
-                            console.error(err);
-                        }
-                    )
             }
         }
     }
 
     modelChangeNotify(change: any) {
         console.log('model change ', change);
+
+        if (typeof change == 'object') {
+            this.addTagToPage(change);
+        }
     }
 
     removeTagFromPage(tag: string) {

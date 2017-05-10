@@ -22,7 +22,8 @@ export class SideNavComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.buildWikiNav();
+        this.wikiPageService.buildWikiNav();
+        //this.buildWikiNav();
     }
 
     buildWikiNav() {
