@@ -8,12 +8,15 @@ import * as path from 'path';
 import * as mongoose from 'mongoose';
 import * as index from "../routes/index";
 import * as api from '../routes/api';
+import * as fs from "fs";
+var appConfig = JSON.parse(fs.readFileSync(__dirname +  "/express.settings.json", "utf8"));
 
 export default function(db) {
     var app = express();
 
     // database connection
-    mongoose.connect('mongodb://localhost:27017/gitwiki');
+    //mongoose.connect('mongodb://localhost:27017/gitwiki');
+    mongoose.connect('mongodb://' + appConfig.dbuser + ':' + appConfig.dbpassword + '@' + appConfig.dbserver + ':' + appConfig.dbport + '/' + appConfig.dbname);
     (<any>mongoose).Promise = global.Promise;
     var mdb: mongoose.Connection = mongoose.connection;
     mdb.on('error', console.error.bind(console, 'connection error:'));
