@@ -1,8 +1,8 @@
 md-toolbar(color="accent")
-  i.material-icons.md-36 menu
-  span Express Application
+  i.material-icons.md-36('(click)'='sideNavOpen = !sideNavOpen') menu
+  span GitWiki Application
 md-sidenav-container
-  md-sidenav.side-nav(mode="side" "[opened]"="true")
+  md-sidenav.side-nav(mode="side" "[opened]"="sideNavOpen")
     div.col-xs-12
       h3 Navigation
       git-wiki-sidenav

@@ -9,6 +9,8 @@ import {WikiPageService} from '../shared/services';
 })
 
 export class HomeComponent implements OnInit {
+    sideNavOpen: boolean = true;
+
     constructor(private wikiPageService: WikiPageService) {
 
     }
