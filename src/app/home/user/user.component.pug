@@ -1,0 +1,17 @@
+div('[formGroup]'='userForm')
+    md-input-container.markdown-container
+        input.markdown-name(type='text' mdInput='' placeholder='Display Name' '[(ngModel)]'='currentUser.name' required='' formControlName='userName')
+        md-error This is required
+    md-input-container.markdown-container
+        input.markdown-name(type='text' mdInput='' placeholder='Email Address' '[(ngModel)]'='currentUser.email' required='' formControlName='userEmail')
+        md-error This is required
+    md-input-container.markdown-container
+        input.markdown-name(type='password' mdInput='' placeholder='Password' '[(ngModel)]'='currentUser.password' required='' formControlName='userPassword')
+        md-error This is required
+    div.markdown-editor-buttons
+        button(md-raised-button="" color="primary" '(click)'='loginUser()' '[disabled]'='!userForm.valid') Login
+    div.markdown-editor-buttons
+        button(md-raised-button="" color="primary" '(click)'='createUser()' '[disabled]'='!userForm.valid') Create User
+
+
+
