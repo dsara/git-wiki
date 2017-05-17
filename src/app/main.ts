@@ -17,6 +17,7 @@ import {AppRoutingModule} from './routes'
 import {HomeComponent} from "./home/home.component";
 import {OverviewModule} from './home/overview';
 import {WikiPageModule} from './home/wikipage';
+import {WikiUserModule} from './home/user';
 import {SideNavModule} from './home/shared/sidenav';
 
 import "rxjs";
@@ -36,7 +37,8 @@ require("../styles/global.scss");
               OverviewModule,
               WikiPageModule,
               AppRoutingModule,
-              SideNavModule],
+              SideNavModule,
+              WikiUserModule],
     declarations: [HomeComponent],
     providers: [WikiPageService, HttpHeadersService],
     bootstrap: [HomeComponent]
