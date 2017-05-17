@@ -1,5 +1,5 @@
 import * as express from "express";
-import {WikiPage, WikiTag} from '../controllers';
+import {WikiPage, WikiTag, WikiUser} from '../controllers';
 
 var router = express.Router();
 
@@ -83,5 +83,11 @@ router.post('/tags/update', (req, res, next) => {
         res.send(wikiTag);
     });
 });
+
+// authentication
+
+router.post('/login', WikiUser.login);
+
+router.post('/register', WikiUser.register);
 
 export = router;

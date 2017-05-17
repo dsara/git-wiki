@@ -9,6 +9,8 @@ import * as mongoose from 'mongoose';
 import * as index from "../routes/index";
 import * as api from '../routes/api';
 import * as fs from "fs";
+import * as passport from 'passport';
+import {WikiUser} from '../controllers'
 var appConfig = JSON.parse(fs.readFileSync(__dirname +  "/express.settings.json", "utf8"));
 
 export default function(db) {
@@ -41,6 +43,9 @@ export default function(db) {
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(cookieParser());
     app.use(express.static(path.join(__dirname, '../../public')));
+
+    WikiUser.setupStrategies();
+    app.use(passport.initialize());
 
     // define routes
     // --------------------------------------
