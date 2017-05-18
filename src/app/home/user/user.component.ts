@@ -17,7 +17,6 @@ export class UserComponent implements OnInit {
         this.currentUser = <IWikiUser> {};
 
         this.userForm = new FormGroup({
-            userName: new FormControl({ value: '', disabled: false }, Validators.required),
             userEmail: new FormControl({ value: '', disabled: false }, Validators.required),
             userPassword: new FormControl({ value: '', disabled: false }, Validators.required)
         });

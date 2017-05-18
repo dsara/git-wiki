@@ -1,6 +1,7 @@
 import * as express from "express";
 import {WikiPage, WikiTag, WikiUser} from '../controllers';
 import * as fs from 'fs';
+import * as passport from 'passport';
 // import * as jwt from 'express-jwt';
 var appConfig = JSON.parse(fs.readFileSync("express.settings.json", "utf8"));
 
@@ -100,8 +101,12 @@ router.post('/tags/update', (req, res, next) => {
 
 // authentication
 
-router.post('/login', WikiUser.login);
+
+// router.post('/login', WikiUser.login);
+
+//router.post('/register', passport.authenticate('local-signup'));
 
 router.post('/register', WikiUser.register);
+router.post('/login', passport.authenticate('local'), WikiUser.login);
 
 export = router;

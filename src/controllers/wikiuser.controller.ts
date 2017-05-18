@@ -15,98 +15,26 @@ var LocalStrategy = passportLocal.Strategy;
 
 export class WikiUser {
 
-    static setupStrategies(): void {
-        passport.use('local-login', new LocalStrategy({
-                usernameField: 'email'
-            },
-            (username, password, done) => {
-                wikiUserModel.findOne({email: username}, (err, user) => {
-                    if (err) { return done(err) }
+    // static login(req: express.Request, res: express.Response) {
+    //     passport.authenticate('local', (err, user, info) => {
+    //         var token;
 
-                    if (!user) {
-                        return done(null, false, {
-                            message: 'User not found'
-                        });
-                    }
+    //         if (err) {
+    //             res.status(404).json(err);
+    //             return;
+    //         }
 
-                    if (!user.validPassword(password)) {
-                        return done(null, false, {
-                            message: 'Password is wrong'
-                        });
-                    }
-
-                    return done(null, user);
-                });
-            }
-        ));
-
-        passport.use('local-signup', new LocalStrategy({
-                usernameField: 'email',
-                passwordField: 'password',
-                passReqToCallback: true
-            },
-            (req, email, password, done) => {
-                if (!req.user) {
-                    wikiUserModel.findOne({email: email}, function (err, user) {
-                        if (err) {
-                            return done(err);
-                        }
-
-                        if (user) {
-                            return done(null, false, {
-                                message: 'User already exists'
-                            })
-                        } else {
-                            var newUser = new wikiUserModel();
-                            newUser.email = email;
-                            newUser.name = name;
-                            newUser.setPassword(password);
-
-                            newUser.save((err) => {
-                                if (err) { return done(err) }
-
-                                return done(null, newUser);                                
-                            })
-                        }
-                    });
-                } else {
-                    var user = req.user;
-
-                    user.email = email;
-                    user.setPassword(password);
-
-                    user.save((err) => {
-                        if (err) {
-                            throw err;
-                        }
-                        return done(null, user);
-                    });
-                }
-            }
-        ));
-        
-    }
-
-    static login(req: express.Request, res: express.Response) {
-        passport.authenticate('local', (err, user, info) => {
-            var token;
-
-            if (err) {
-                res.status(404).json(err);
-                return;
-            }
-
-            if (user) {
-                token = user.generateJwt();
-                res.status(200);
-                res.json({
-                    'token': token
-                });
-            } else {
-                res.status(401).json(info);
-            }
-        })(req, res, function(){});
-    }
+    //         if (user) {
+    //             token = user.generateJwt();
+    //             res.status(200);
+    //             res.json({
+    //                 'token': token
+    //             });
+    //         } else {
+    //             res.status(401).json(info);
+    //         }
+    //     })(req, res, function(){});
+    // }
 
     static isLoggedIn(req: express.Request, res: express.Response, next) {
         if (req.isAuthenticated()) {
@@ -137,22 +65,39 @@ export class WikiUser {
     //     });
     // }
 
+    // static register(req: express.Request, res: express.Response) {
+    //     var user = new wikiUserModel();
+
+    //     user.name = req.body.name;
+    //     user.email = req.body.email;
+
+    //     user.hash = user.setPassword(req.body.password);
+    //     // user.setPassword(req.body.password);
+
+    //     user.save((err) => {
+    //         var token;
+    //         token = user.generateJwt();
+    //         res.status(200);
+    //         res.json({
+    //             'token': token
+    //         });
+    //     });
+    // }
+
     static register(req: express.Request, res: express.Response) {
-        var user = new wikiUserModel();
+        wikiUserModel.register(new wikiUserModel({ username: req.body.username }), req.body.password, function (err, account) {
+            if (err) {
+                return res.render('register', {info: 'Sorry, that username already exists. Try again.'});
+            }
 
-        user.name = req.body.name;
-        user.email = req.body.email;
-
-        user.hash = user.setPassword(req.body.password);
-        // user.setPassword(req.body.password);
-
-        user.save((err) => {
-            var token;
-            token = user.generateJwt();
-            res.status(200);
-            res.json({
-                'token': token
+            passport.authenticate('local')(req, res, function() {
+                res.status(200).json({ done: 'authenticated' });
+                //res.redirect('/');
             });
         });
+    }
+
+    static login(req: express.Request, res: express.Response) {
+        res.status(200);
     }
 }

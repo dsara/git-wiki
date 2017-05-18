@@ -10,7 +10,8 @@ import * as index from "../routes/index";
 import * as api from '../routes/api';
 import * as fs from "fs";
 import * as passport from 'passport';
-// import * as session from 'express-session';
+var LocalStrategy = require('passport-local').Strategy;
+import * as session from 'express-session';
 import {WikiUser} from '../controllers'
 var appConfig = JSON.parse(fs.readFileSync("express.settings.json", "utf8"));
 
@@ -46,21 +47,24 @@ export default function(db) {
     app.use(express.static(path.join(__dirname, '../../public')));
 
     //WikiUser.setupStrategies();
-    require('./passport');
-    ///app.use(session({
-    //     secret: appConfig.secret,
-    //     saveUninitialized: true,
-    //     resave: true
-    // }));
+    
+    app.use(session({
+        secret: appConfig.secret,
+        saveUninitialized: false,
+        resave: false
+    }));
 
     app.use(passport.initialize());
-    // app.use(passport.session());
+    app.use(passport.session());
 
     // define routes
     // --------------------------------------
 
     app.use('/', index);
     app.use('/api', api);
+
+    require('./passport');
+
     // app.use('/users', users);
 
     // app.use((req: express.Request, res: express.Response): void => {

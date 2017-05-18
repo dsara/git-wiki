@@ -12,40 +12,85 @@ import * as passport from 'passport';
 import * as passportLocal from 'passport-local';
 var LocalStrategy = passportLocal.Strategy;
 
-// passport.serializeUser(function(user: IWikiUser, done) {
-//     done(null, user._id)
-// });
+passport.use(new LocalStrategy(wikiUserModel.authenticate()));
 
-// passport.deserializeUser(function(id, done) {
-//     wikiUserModel.findById(id, function(err, user) {
-//         done(err, user);
+passport.serializeUser(wikiUserModel.serializeUser());
+
+passport.deserializeUser(wikiUserModel.deserializeUser());
+
+// passport.use(new LocalStrategy({
+//     usernameField: 'email'
+//   },
+//   function(username, password, done) {
+//     wikiUserModel.findOne({ email: username }, function (err, user) {
+//       if (err) { return done(err); }
+//       // Return if user not found in database
+//       if (!user) {
+//         return done(null, false, {
+//           message: 'User not found'
+//         });
+//       }
+//       // Return if password is wrong
+//       if (!user.validPassword(password)) {
+//         return done(null, false, {
+//           message: 'Password is wrong'
+//         });
+//       }
+//       // If credentials are correct, return the user object
+//       return done(null, user);
 //     });
-// });
+//   }
+// ));
 
+// passport.use('local-signup', new LocalStrategy({
+//         usernameField: 'email',
+//         passwordField: 'password',
+//         passReqToCallback: true
+//     },
+//     function (req, email, password, done) {
+//         process.nextTick(function () {
+//             if (!req.user) {
+//                 wikiUserModel.findOne({email: email}, function (err, user) {
+//                     if (err) {
+//                         return done(err);
+//                     }
 
-passport.use(new LocalStrategy({
-    usernameField: 'email'
-  },
-  function(username, password, done) {
-    wikiUserModel.findOne({ email: username }, function (err, user) {
-      if (err) { return done(err); }
-      // Return if user not found in database
-      if (!user) {
-        return done(null, false, {
-          message: 'User not found'
-        });
-      }
-      // Return if password is wrong
-      if (!user.validPassword(password)) {
-        return done(null, false, {
-          message: 'Password is wrong'
-        });
-      }
-      // If credentials are correct, return the user object
-      return done(null, user);
-    });
-  }
-));
+//                     if (user) {
+//                         return done(null, false, {
+//                             message: 'That user already exists'
+//                         });
+//                     } else {
+//                         var newUser = new wikiUserModel();
+
+//                         newUser.name = req.body.name;
+//                         newUser.email = email;
+//                         newUser.password = newUser.setPassword(password);
+
+//                         newUser.save(function (err) {
+//                             if (err) {
+//                                 throw err;
+//                             }
+
+//                             return done(null, newUser);
+//                         })
+//                     }
+//                 });
+//             } else {
+//                 var user = <IWikiUser & mongoose.Document>req.user;
+
+//                 user.email = email;
+//                 user.password = user.setPassword(password);
+
+//                 user.save(function (err) {
+//                     if (err) {
+//                         throw err;
+//                     }
+//                     return done (null, user);
+//                 });
+//             }
+//         });
+//     }
+// ))
 
 
 // passport.use('local-login', new LocalStrategy({
