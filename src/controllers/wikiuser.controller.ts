@@ -88,7 +88,7 @@ export class WikiUser {
     }
 
     static login(req: express.Request, res: express.Response) {
-        passport.authenticate('local-login', (err, user, info) => {
+        passport.authenticate('local', (err, user, info) => {
             var token;
 
             if (err) {
@@ -105,27 +105,54 @@ export class WikiUser {
             } else {
                 res.status(401).json(info);
             }
-        });
+        })(req, res, function(){});
     }
 
+    static isLoggedIn(req: express.Request, res: express.Response, next) {
+        if (req.isAuthenticated()) {
+            return next();
+        }
+
+        res.status(401);
+    }
+
+    // static register(req: express.Request, res: express.Response) {
+    //     passport.authenticate('local-signup', (err, user, info) => {
+    //         var token;
+
+    //         if (err) {
+    //             res.status(404).json(err);
+    //             return;
+    //         }
+
+    //         if (user) {
+    //             token = user.generateJwt();
+    //             res.status(200);
+    //             res.json({
+    //                 'token': token
+    //             });
+    //         } else {
+    //             res.status(401).json(info);
+    //         }
+    //     });
+    // }
+
     static register(req: express.Request, res: express.Response) {
-        passport.authenticate('local-signup', (err, user, info) => {
+        var user = new wikiUserModel();
+
+        user.name = req.body.name;
+        user.email = req.body.email;
+
+        user.hash = user.setPassword(req.body.password);
+        // user.setPassword(req.body.password);
+
+        user.save((err) => {
             var token;
-
-            if (err) {
-                res.status(404).json(err);
-                return;
-            }
-
-            if (user) {
-                token = user.generateJwt();
-                res.status(200);
-                res.json({
-                    'token': token
-                });
-            } else {
-                res.status(401).json(info);
-            }
+            token = user.generateJwt();
+            res.status(200);
+            res.json({
+                'token': token
+            });
         });
     }
 }

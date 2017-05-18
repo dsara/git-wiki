@@ -10,8 +10,9 @@ import * as index from "../routes/index";
 import * as api from '../routes/api';
 import * as fs from "fs";
 import * as passport from 'passport';
+// import * as session from 'express-session';
 import {WikiUser} from '../controllers'
-var appConfig = JSON.parse(fs.readFileSync(__dirname +  "/express.settings.json", "utf8"));
+var appConfig = JSON.parse(fs.readFileSync("express.settings.json", "utf8"));
 
 export default function(db) {
     var app = express();
@@ -44,8 +45,16 @@ export default function(db) {
     app.use(cookieParser());
     app.use(express.static(path.join(__dirname, '../../public')));
 
-    WikiUser.setupStrategies();
+    //WikiUser.setupStrategies();
+    require('./passport');
+    ///app.use(session({
+    //     secret: appConfig.secret,
+    //     saveUninitialized: true,
+    //     resave: true
+    // }));
+
     app.use(passport.initialize());
+    // app.use(passport.session());
 
     // define routes
     // --------------------------------------
@@ -65,9 +74,16 @@ export default function(db) {
     // catch 404 and forward to error handler
     app.use((req: express.Request, res: express.Response, next: Function): void => {
         var err = new Error('Not Found');
-        //err.status = 404;
+        (<any>err).status = 404;
         next(err);
     });
+
+    // app.use((err, req, res, next) => {
+    //     if (err.name === 'UnauthorizedError') {
+    //         res.status(401);
+    //         res.json({message: err.name + ": " + err.message});
+    //     }
+    // });
 
     // error handler
     app.use(function(err, req, res, next) {

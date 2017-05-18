@@ -32,6 +32,18 @@ export class WikiUserService {
             .catch(this.handleError);
     }
 
+    // saveToken(token: string): void {
+    //     window.localStorage.setItem('mean-token', token);
+    // }
+
+    // getToken(): string {
+    //     return window.localStorage.getItem('mean-token');
+    // }
+
+    // logout(): void {
+    //     window.localStorage.removeItem('mean-token');
+    // }
+
     private handleError(error: Response): ErrorObservable {
         return Observable.throw(error || "Server error");
     }

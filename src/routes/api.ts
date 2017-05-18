@@ -1,15 +1,29 @@
 import * as express from "express";
 import {WikiPage, WikiTag, WikiUser} from '../controllers';
+import * as fs from 'fs';
+// import * as jwt from 'express-jwt';
+var appConfig = JSON.parse(fs.readFileSync("express.settings.json", "utf8"));
+
+// var auth = jwt({
+//     secret: appConfig.secret,
+//     userProperty: 'payload'
+// });
 
 var router = express.Router();
 
 //var Page = require("../model/gitwikipage");
 
 // api for pages
-router.get('/pages/:path', function(req, res, next) {
+router.get('/pages/:path', function(req: express.Request, res: express.Response, next) {
+
+    // if (!req.body._id) {
+    //     res.status(401).json({
+    //         "message": "UnauthorizedError: not authenticated"
+    //     });
+    // } else {
     res.set('Content-Type', 'application/json');
     WikiPage.getWikiPage(decodeURIComponent(req.params.path)).then((wikiPage) => {
-        res.send(wikiPage);
+        res.status(200).send(wikiPage);
     });
 });
 
