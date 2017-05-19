@@ -1,6 +1,7 @@
 import {IWikiTag} from '../interfaces';
 import {wikiTagModel} from '../models';
 import * as mongoose from 'mongoose';
+import * as express from 'express';
 
 export class WikiTag {
     static getWikiTag(name: string): Promise<IWikiTag> {
@@ -39,12 +40,21 @@ export class WikiTag {
         });
     }
 
-    static saveWikiTag(wikiTag: IWikiTag): Promise<IWikiTag> {
-        return wikiTagModel.findByIdAndUpdate(wikiTag._id, wikiTag, { new: true }).exec((err: any, resWikiTag) => {
+    // static saveWikiTag(wikiTag: IWikiTag): Promise<IWikiTag> {
+    //     return wikiTagModel.findByIdAndUpdate(wikiTag._id, wikiTag, { new: true }).exec((err: any, resWikiTag) => {
+    //         if (err) {
+    //             console.error(err);
+    //         }
+    //         return resWikiTag;
+    //     });
+    // }
+
+    static saveWikiTag(req: express.Request, res: express.Response, next: Function) {
+        wikiTagModel.findByIdAndUpdate(req.body._id, req.body, { new: true }).exec((err: any, resWikiTag) => {
             if (err) {
                 console.error(err);
             }
-            return resWikiTag;
+            res.status(200).json(resWikiTag);
         });
     }
 }

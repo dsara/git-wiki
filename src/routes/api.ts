@@ -2,111 +2,86 @@ import * as express from "express";
 import {WikiPage, WikiTag, WikiUser} from '../controllers';
 import * as fs from 'fs';
 import * as passport from 'passport';
-// import * as jwt from 'express-jwt';
 var appConfig = JSON.parse(fs.readFileSync("express.settings.json", "utf8"));
-
-// var auth = jwt({
-//     secret: appConfig.secret,
-//     userProperty: 'payload'
-// });
 
 var router = express.Router();
 
-//var Page = require("../model/gitwikipage");
-
 // api for pages
-router.get('/pages/:path', function(req: express.Request, res: express.Response, next) {
-
-    // if (!req.body._id) {
-    //     res.status(401).json({
-    //         "message": "UnauthorizedError: not authenticated"
-    //     });
-    // } else {
+router.get('/pages/:path', WikiUser.isLoggedIn, function(req: express.Request, res: express.Response, next) {
     res.set('Content-Type', 'application/json');
     WikiPage.getWikiPage(decodeURIComponent(req.params.path)).then((wikiPage) => {
         res.status(200).send(wikiPage);
     });
 });
 
-router.get('/pages', (req, res, next) => {
+router.get('/pages', WikiUser.isLoggedIn, (req, res, next) => {
     res.set('Content-Type', 'application/json');
     WikiPage.getWikiPages().then((wikiPages) => {
         res.send(wikiPages);
     });
 });
 
-router.get('/nav', (req, res, next) => {
+router.get('/nav', WikiUser.isLoggedIn, (req, res, next) => {
     res.set('Content-Type', 'application/json');
     WikiPage.getWikiNavPages().then((wikiNavPages) => {
         res.send(wikiNavPages);
     });
 });
 
-router.post('/pages', (req, res, next) => {
+router.post('/pages', WikiUser.isLoggedIn, (req, res, next) => {
     res.set('Content-Type', 'application/json');
     WikiPage.newWikiPage(req.body).then((wikiPage) => {
         res.send(wikiPage);
     });
 });
 
-router.post('/pages/update', (req, res, next) => {
+router.post('/pages/update', WikiUser.isLoggedIn, (req, res, next) => {
     res.set('Content-Type', 'application/json');
     WikiPage.saveWikiPage(req.body).then((wikiPage) => {
         res.send(wikiPage);
     });
 });
 
-// router.post('/pages/create', function(req, res, next) {
-//   Page.create(req.body, function (err, post) {
-//     if (err) return next(err);
-//     res.json(post);
-//   });
-// });
-
 // api for tags
-router.get('/tags/:name', function(req, res, next) {
+router.get('/tags/:name', WikiUser.isLoggedIn, function(req, res, next) {
     res.set('Content-Type', 'application/json');
     WikiTag.getWikiTag(decodeURIComponent(req.params.name)).then((wikiTag) => {
         res.send(wikiTag);
     });
 });
 
-router.get('/tags/search/:search', function(req, res, next) {
+router.get('/tags/search/:search', WikiUser.isLoggedIn, function(req, res, next) {
     res.set('Content-Type', 'application/json');
     WikiTag.getWikiTags(decodeURIComponent(req.params.search)).then((wikiTags) => {
         res.send(wikiTags);
     });
 });
 
-router.get('/tags', (req, res, next) => {
+router.get('/tags', WikiUser.isLoggedIn, (req, res, next) => {
     res.set('Content-Type', 'application/json');
     WikiTag.getAllWikiTags().then((wikiTags) => {
         res.send(wikiTags);
     });
 });
 
-router.post('/tags', (req, res, next) => {
+router.post('/tags', WikiUser.isLoggedIn, (req, res, next) => {
     res.set('Content-Type', 'application/json');
     WikiTag.newWikiTag(req.body).then((wikiTag) => {
         res.send(wikiTag);
     });
 });
 
-router.post('/tags/update', (req, res, next) => {
-    res.set('Content-Type', 'application/json');
-    WikiTag.saveWikiTag(req.body).then((wikiTag) => {
-        res.send(wikiTag);
-    });
-});
+// router.post('/tags/update', WikiUser.isLoggedIn, (req, res, next) => {
+//     res.set('Content-Type', 'application/json');
+//     WikiTag.saveWikiTag(req.body).then((wikiTag) => {
+//         res.send(wikiTag);
+//     });
+// });
+router.post('/tags/update', WikiUser.isLoggedIn, WikiTag.saveWikiTag);
 
 // authentication
-
-
-// router.post('/login', WikiUser.login);
-
-//router.post('/register', passport.authenticate('local-signup'));
-
 router.post('/register', WikiUser.register);
 router.post('/login', passport.authenticate('local'), WikiUser.login);
+router.post('/logout', WikiUser.logOut);
 
 export = router;
