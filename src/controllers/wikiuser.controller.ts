@@ -17,6 +17,7 @@ export class WikiUser {
 
     static isLoggedIn(req: express.Request, res: express.Response, next) {
         if (req.isAuthenticated()) {
+            console.log(req.user);
             return next();
         }
 

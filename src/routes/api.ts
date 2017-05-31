@@ -57,26 +57,8 @@ router.get('/tags/search/:search', WikiUser.isLoggedIn, function(req, res, next)
     });
 });
 
-router.get('/tags', WikiUser.isLoggedIn, (req, res, next) => {
-    res.set('Content-Type', 'application/json');
-    WikiTag.getAllWikiTags().then((wikiTags) => {
-        res.send(wikiTags);
-    });
-});
-
-router.post('/tags', WikiUser.isLoggedIn, (req, res, next) => {
-    res.set('Content-Type', 'application/json');
-    WikiTag.newWikiTag(req.body).then((wikiTag) => {
-        res.send(wikiTag);
-    });
-});
-
-// router.post('/tags/update', WikiUser.isLoggedIn, (req, res, next) => {
-//     res.set('Content-Type', 'application/json');
-//     WikiTag.saveWikiTag(req.body).then((wikiTag) => {
-//         res.send(wikiTag);
-//     });
-// });
+router.get('/tags', WikiUser.isLoggedIn, WikiTag.getAllWikiTags);
+router.post('/tags', WikiUser.isLoggedIn, WikiTag.newWikiTag);
 router.post('/tags/update', WikiUser.isLoggedIn, WikiTag.saveWikiTag);
 
 // authentication

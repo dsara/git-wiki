@@ -22,21 +22,39 @@ export class WikiTag {
         });
     }
 
-    static getAllWikiTags(): Promise<IWikiTag[]> {
-        return wikiTagModel.find({}).exec((err, wikiTags: IWikiTag[]) => {
+    // static getAllWikiTags(): Promise<IWikiTag[]> {
+    //     return wikiTagModel.find({}).exec((err, wikiTags: IWikiTag[]) => {
+    //         if (err) {
+    //             console.error(err);
+    //         }
+    //         return wikiTags;
+    //     });
+    // }
+
+    static getAllWikiTags(req: express.Request, res: express.Response, next: Function) {
+        wikiTagModel.find({}).exec((err, wikiTags: IWikiTag[]) => {
             if (err) {
                 console.error(err);
             }
-            return wikiTags;
+            res.status(200).json(wikiTags);
         });
     }
 
-    static newWikiTag(wikiTag: IWikiTag): Promise<IWikiTag> {
-       return wikiTagModel.create(wikiTag, (err: any, resWikiTag) => {
+    // static newWikiTag(wikiTag: IWikiTag): Promise<IWikiTag> {
+    //    return wikiTagModel.create(wikiTag, (err: any, resWikiTag) => {
+    //         if (err) {
+    //             console.error(err);
+    //         }
+    //         return resWikiTag;
+    //     });
+    // }
+
+    static newWikiTag(req: express.Request, res: express.Response, next: Function) {
+        wikiTagModel.create(req.body, (err: any, resWikiTag) => {
             if (err) {
                 console.error(err);
             }
-            return resWikiTag;
+            res.status(200).json(resWikiTag);
         });
     }
 
