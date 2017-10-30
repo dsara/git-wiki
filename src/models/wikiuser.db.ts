@@ -9,7 +9,7 @@ import * as passportLocalMongoose from 'passport-local-mongoose'
 var appConfig = JSON.parse(fs.readFileSync("express.settings.json", "utf8"));
 
 
-var _wikiUserSchema: mongoose.Schema = new mongoose.Schema({
+var _wikiUserSchema: mongoose.PassportLocalSchema = <mongoose.PassportLocalSchema>new mongoose.Schema({
     username: String,
     password: String
 });
