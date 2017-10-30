@@ -20,7 +20,12 @@ export default function(db) {
 
     // database connection
     //mongoose.connect('mongodb://localhost:27017/gitwiki');
-    mongoose.connect('mongodb://' + appConfig.dbuser + ':' + appConfig.dbpassword + '@' + appConfig.dbserver + ':' + appConfig.dbport + '/' + appConfig.dbname);
+    mongoose.connect('mongodb://' + appConfig.dbserver + ':' + appConfig.dbport + '/' + appConfig.dbname,
+                        {
+                      user: appConfig.dbuser,
+                      pass: appConfig.dbpassword,
+                      useMongoClient: true});
+    // mongoose.connect('mongodb://' + appConfig.dbuser + ':' + appConfig.dbpassword + '@' + appConfig.dbserver + ':' + appConfig.dbport + '/' + appConfig.dbname);
     (<any>mongoose).Promise = global.Promise;
     var mdb: mongoose.Connection = mongoose.connection;
     mdb.on('error', console.error.bind(console, 'connection error:'));
